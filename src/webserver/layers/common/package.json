@@ -1,0 +1,7 @@
+{
+  "extends": "../../package.json",
+  "type": "module",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true
+  }
+}

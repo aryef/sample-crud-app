@@ -1,0 +1,25 @@
+.main {
+  --light-background: #fff;
+  --light-text: #1c1c1c;
+  --color-primary: #0047ff;
+  --color-success: #28a745;
+  --color-warning: #ffbd00;
+  --color-failure: #ff0000;
+
+  --theme-background: var(--light-background);
+  --theme-text: var(--light-text);
+  --theme-button: var(--color-primary);
+  --theme-tip-default: var(--color-success);
+
+  font-size: 14px;
+  background: var(--theme-background);
+  color: var(--theme-text);
+  font-family: -apple-system, BlinkMacSystemFont, helvetica neue, helvetica,
+    sans-serif;
+  scrollbar-width: none;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
