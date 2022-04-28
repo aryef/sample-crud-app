@@ -67,7 +67,6 @@ def main(data_file_path):
                 new_customer_row = customer_id \
                                + '^' + str(line['customer_id']) \
                                + '^' + str(line['email']) \
-                               + '^' + '{}' \
                                + '^' + timestamp \
                                + '^' + 'arye' + '^' \
                                + timestamp \
@@ -79,8 +78,8 @@ def main(data_file_path):
                                                   '^' + str(line['first_name']) + \
                                                   '^' + str(line['gender']) + \
                                                    '^{' + str(line['phone']) + \
-                                                   '}^'+'{}' \
-                                                  + '^' + timestamp \
+                                                   '}^' \
+                                                  + timestamp \
                                                   + '^' + 'arye' + '^' \
                                                   + timestamp \
                                                   + '^' + 'arye' + '\n'
@@ -94,8 +93,7 @@ def main(data_file_path):
                                                  '^' + str('NULL') + \
                                                  '^' + str('NULL') + \
                                                  '^' + str('NULL') + \
-                                                  '^'+'{}' \
-                                                  + '^' + timestamp \
+                                                  '^' + timestamp \
                                                  + '^' + 'arye' + '^' \
                                                  + timestamp \
                                                  + '^' + 'arye' + '\n'
@@ -109,8 +107,7 @@ def main(data_file_path):
                                              '^' + str(line['total_price']) + \
                                              '^' + str('NULL') + \
                                              '^' + timestamp + \
-                                             '^'+'{}' \
-                                             + '^' + timestamp \
+                                             '^' + timestamp \
                                              + '^' + 'arye' + '^' \
                                              + timestamp \
                                              + '^' + 'arye' + '\n'
@@ -162,4 +159,9 @@ def pg_bulk_insert(table_name, customer_data, db_cursor, postgres_obj):
 if __name__ == '__main__':
     if not sys.argv[1:]:
         data_file_path = 'D:\\Dev\\Samples\\react\\justt\\justt-web\\scripts\\migration\\data\\data.json'
-        main(data_file_path)
+    else:
+    	data_file_path = str(sys.argv[1:])
+    	print(data_file_path)
+
+    main(data_file_path)
+

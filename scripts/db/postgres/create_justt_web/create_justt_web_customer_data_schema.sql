@@ -14,7 +14,6 @@ create table customer (
 	seq UUID NOT NULL DEFAULT gen_random_uuid(),
     customer_id citext NOT null,
     email varchar(50) null,
-	data_json jsonb NOT NULL,
 	created_at timestamp(3) not null DEFAULT now() ,
 	create_user varchar(50) not null DEFAULT current_user,
 	updated_at timestamp(3),
@@ -38,12 +37,6 @@ CREATE unique INDEX customer_email_isx
     ON customer
         USING btree (logic_helper.to_lower(email));
 
-CREATE TRIGGER trg_customer_on_insert_update
-    before INSERT OR UPDATE
-    ON customer_data.customer
-    FOR EACH ROW
-    WHEN (pg_trigger_depth() < 1)
-EXECUTE FUNCTION logic_helper.fn_user_data_trg();
 
 -------------------------------------------------------------------
 
@@ -55,7 +48,6 @@ create table customer_detail_personal (
     first_name varchar(1000) null,
     gender varchar(200) null,
     phone varchar(30)[] null,
-	data_json jsonb NOT NULL,
     created_at timestamp(3) not null DEFAULT now() ,
     create_user varchar(50) not null DEFAULT current_user,
     updated_at timestamp(3),
@@ -72,12 +64,6 @@ CREATE unique INDEX customer_detail_personal_isx
     ON customer_detail_personal
         USING btree (customer_seq);
 
-CREATE TRIGGER trg_customer_detail_personal_on_insert_update
-    before INSERT OR UPDATE
-    ON customer_data.customer_detail_personal
-    FOR EACH ROW
-    WHEN (pg_trigger_depth() < 1)
-EXECUTE FUNCTION logic_helper.fn_user_data_trg();
 
 --TODO there may be several addresses of the same customer
 create table customer_detail_address (
@@ -90,7 +76,6 @@ create table customer_detail_address (
       geolocation_address_wgs84 geometry null, --TODO implement pyramid presentation logic (if address is not found then show street middle, then city center
       geolocation_street_wgs84 geometry null,
       geolocation_city_wgs84 geometry null,
-      data_json jsonb NOT NULL,
       created_at timestamp(3) not null DEFAULT now() ,
       create_user varchar(50) not null DEFAULT current_user,
       updated_at timestamp(3),
@@ -107,12 +92,6 @@ CREATE unique INDEX customer_detail_address_isx
     ON customer_detail_personal
         USING btree (customer_seq);
 
-CREATE TRIGGER trg_customer_detail_address_on_insert_update
-    before INSERT OR UPDATE
-    ON customer_data.customer_detail_address
-    FOR EACH ROW
-    WHEN (pg_trigger_depth() < 1)
-EXECUTE FUNCTION logic_helper.fn_user_data_trg();
 
 create table transaction_register (
 	seq UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -124,7 +103,6 @@ create table transaction_register (
 	transaction_amount  numeric(16,4)  not null default 0,
 	transaction_amount_in_base_ccy numeric(16,4),  -- base_ccy should be recalculated if changed by system administrator, it IS complicated
 	transaction_date date NOT NULL  DEFAULT now()  , -- no initial data is provided, should be managed
-	data_json jsonb NOT NULL,
     created_at timestamp(3) not null DEFAULT now() ,
     create_user varchar(50) not null DEFAULT current_user,
     updated_at timestamp(3),
@@ -141,12 +119,4 @@ ADD CONSTRAINT transaction_register_pkey PRIMARY KEY (seq);
 CREATE INDEX transaction_register_isx
 ON transaction_register 
 USING btree (customer_seq);
-
-CREATE TRIGGER trg_transaction_register_on_insert_update
-    before INSERT OR UPDATE
-    ON customer_data.transaction_register
-    FOR EACH ROW
-    WHEN (pg_trigger_depth() < 1)
-EXECUTE FUNCTION logic_helper.fn_user_data_trg();
-
 
