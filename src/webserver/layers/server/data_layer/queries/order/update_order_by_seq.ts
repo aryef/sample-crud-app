@@ -7,35 +7,36 @@ import {
     log_warn,
 } from '../../../../common/logger/logger';
 import { isEmpty } from '../../../../common/utils';
-import getPgDb from '../../data_init/get_pg_db';
+import PG_DATA from '../../data_init/pg_data';
+
 import { getOrderBySeq } from './get_order_by_seq';
 
 export const updateOrder: (
     order: IOrder,
-) => Promise<IOrder | null> = async (order: IOrder) => {
+) => Promise<IOrder[] | null | void> = async (order: IOrder) => {
     if (order && !isEmpty(order.seq)) {
         try {
-            const ret: void | number = await getPgDb<IOrder>(
-                'customer',
+            const ret: void | number = await PG_DATA<IOrder>(
+                'transaction_register',
             )
                 .withSchema(CUSTOMER_DATA_SCHEMA)
                 .where('seq', order.seq)
                 .update(order)
                 .catch((err) => {
-                    log_exception('getCustomerById crashed', err);
+                    log_exception('updateOrder crashed', err);
                 });
 
             log_info(
                 `${ret} rows were updated for order ${order.seq}`,
             );
         } catch (err) {
-            log_exception('getCustomerById crashed', err);
+            log_exception('updateOrder crashed', err);
             return null;
         }
 
         return await getOrderBySeq(order.seq || '');
     } else {
-        log_warn('db: order seq was not valid');
+        log_warn('updateOrder: order seq was not valid');
 
         return null;
     }

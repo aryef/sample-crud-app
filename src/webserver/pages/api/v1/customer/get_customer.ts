@@ -16,36 +16,42 @@ const getCustomer: (
 };
 
 export default async function get_customer(
-    _req: NextApiRequest,
+    req: NextApiRequest,
     res: NextApiResponse<ICustomer | { error: string }>,
 ) {
-    await Server.cors(_req, res);
+    if (req.method === 'GET') {
+        await Server.cors(req, res);
 
-    let result: ICustomer;
+        let result: ICustomer;
 
-    //const email = getKeyValue(_req.query, 'email');
-    const email: string | string[] = _req.query['email'];
+        //const email = getKeyValue(_req.query, 'email');
+        const email: string | string[] = req.query['email'];
 
-    if (!isEmpty(email) && !isArray(email)) {
-        await getCustomer(email)
-            .then((reslt) => {
-                if (reslt && reslt !== null) {
-                    result = reslt;
+        if (!isEmpty(email) && !isArray(email)) {
+            await getCustomer(email)
+                .then((reslt) => {
+                    if (reslt && reslt !== null) {
+                        result = reslt;
 
-                    log_info(`data retruned`, reslt);
-                    return res.status(200).json(result);
-                } else {
-                    log_info(`no data returned`);
-                    return res.status(402).json(result);
-                }
-            })
-            .catch((err) => {
-                log_error(`data crashed`, err);
-                return res
-                    .status(501)
-                    .send({ error: `no user found ${err}` });
-            });
+                        log_info(`data returned`, reslt);
+                        return res.status(200).json(result);
+                    } else {
+                        log_info(`no data returned`);
+                        return res.status(405).json(result);
+                    }
+                })
+                .catch((err) => {
+                    log_error(`data crashed`, err);
+                    return res
+                        .status(501)
+                        .send({ error: `no user found ${err}` });
+                });
+        } else {
+            return res.status(501).send({ error: `input invalid` });
+        }
     } else {
-        return res.status(501).send({ error: `input invalid` });
+        return res
+            .status(405)
+            .send({ error: `"Method not implemented"` });
     }
 }
