@@ -6,18 +6,18 @@ import {
     log_warn,
 } from '../../../../common/logger/logger';
 import { isEmpty } from '../../../../common/utils';
-import getPgDb from '../../data_init/get_pg_db';
+import PG_DATA from '../../data_init/pg_data';
 
 export const getAllCustomerOrders: (
-    seq: string,
-) => Promise<IOrder[] | null> = async (seq: string) => {
-    if (seq && !isEmpty(seq)) {
+    customer_seq: string,
+) => Promise<IOrder[] | null | void> = async (
+    customer_seq: string,
+) => {
+    if (customer_seq && !isEmpty(customer_seq)) {
         try {
-            const ret: void | IOrder[] = await getPgDb<IOrder>(
-                'transaction_register',
-            )
+            return await PG_DATA<IOrder>('transaction_register')
                 .withSchema(CUSTOMER_DATA_SCHEMA)
-                .where('customer_seq', seq)
+                .where('customer_seq', customer_seq)
                 .select()
                 .catch((err) => {
                     log_exception(
@@ -25,17 +25,11 @@ export const getAllCustomerOrders: (
                         err,
                     );
                 });
-
-            if (ret && ret.length > 0) {
-                return ret;
-            }
         } catch (err) {
             log_exception('getAllCustomerOrders crashed', err);
 
             return null;
         }
-
-        return null;
     } else {
         log_warn('db: customer seq was not valid');
 
