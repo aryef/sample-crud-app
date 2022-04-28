@@ -24,8 +24,6 @@ export const getCustomerByEmail: (
 
             return null;
         }
-
-        return null;
     } else {
         log_warn('getCustomerByEmail : email was not valid');
 

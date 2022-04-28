@@ -1,15 +1,15 @@
 import { DateTime } from 'luxon';
 import { CUSTOMER_DATA_SCHEMA } from '../../../../common/environment/constants';
-import { ICustomer } from '../../../../common/interface/data/ICustomer';
 import { IOrder } from '../../../../common/interface/data/IOrder';
 import { log_exception } from '../../../../common/logger/logger';
 import { generate_uuid } from '../../../../common/utils';
-import getPgDb from '../../data_init/get_pg_db';
+import PG_DATA from '../../data_init/pg_data';
+
 import { getOrderBySeq } from './get_order_by_seq';
 
 export const createOrder: (
     order: IOrder,
-) => Promise<IOrder | null> = async (order: IOrder) => {
+) => Promise<IOrder[] | null | void> = async (order: IOrder) => {
     const seq = generate_uuid();
 
     const newOrder: IOrder = {
@@ -22,14 +22,14 @@ export const createOrder: (
     };
 
     try {
-        await getPgDb<ICustomer>('customer')
+        await PG_DATA<IOrder>('transaction_register')
             .withSchema(CUSTOMER_DATA_SCHEMA)
             .insert(newOrder)
             .catch(function (err) {
-                log_exception('createUser crashed', err);
+                log_exception('createOrder crashed', err);
             });
     } catch (err) {
-        log_exception('createCustomer crashed', err);
+        log_exception('createOrder crashed', err);
 
         return null;
     }

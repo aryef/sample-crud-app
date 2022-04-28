@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "94ec11d3-2864-4131-9f1c-f736067fcbd7",
+		"name": "justt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_customer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:40080/api/v1/customer/get_customer?email=babberley0@artisteer.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "40080",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"get_customer"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "babberley0@artisteer.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:40080/api/v1/health/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "40080",
+					"path": [
+						"api",
+						"v1",
+						"health",
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

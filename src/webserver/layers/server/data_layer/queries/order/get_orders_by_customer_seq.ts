@@ -8,7 +8,7 @@ import {
 import { isEmpty } from '../../../../common/utils';
 import PG_DATA from '../../data_init/pg_data';
 
-export const getAllCustomerOrders: (
+export const getOrdersByCustomerSeq: (
     customer_seq: string,
 ) => Promise<IOrder[] | null | void> = async (
     customer_seq: string,

@@ -1,18 +1,19 @@
-import { ICustomer } from '../../../../common/interface/data/ICustomer';
+import { CUSTOMER_DATA_SCHEMA } from '../../../../common/environment/constants';
+import { IOrder } from '../../../../common/interface/data/IOrder';
 import {
     log_exception,
     log_warn,
 } from '../../../../common/logger/logger';
 import { isEmpty } from '../../../../common/utils';
-import getPgDb from '../../data_init/get_pg_db';
+import PG_DATA from '../../data_init/pg_data';
 
 export const deleteOrderBySeq: (
     seq: string,
 ) => Promise<boolean> = async (seq: string) => {
     if (seq && !isEmpty(seq)) {
         try {
-            await getPgDb<ICustomer>('customer')
-                .withSchema('public')
+            await PG_DATA<IOrder>('transaction_register')
+                .withSchema(CUSTOMER_DATA_SCHEMA)
                 .where('seq', seq)
                 .del()
                 .catch(function (err) {
@@ -26,7 +27,7 @@ export const deleteOrderBySeq: (
             return false;
         }
     } else {
-        log_warn('db: order seq was not valid');
+        log_warn('deleteOrderBySeq: order seq was not valid');
 
         return false;
     }

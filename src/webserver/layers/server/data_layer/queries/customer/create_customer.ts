@@ -9,7 +9,7 @@ import { getCustomerByEmail } from './get_customer_by_email';
 export const createCustomer: (
     customer_id: string,
     email: string,
-) => Promise<ICustomer | null> = async (
+) => Promise<ICustomer[] | null | void> = async (
     customer_id: string,
     email: string,
 ) => {

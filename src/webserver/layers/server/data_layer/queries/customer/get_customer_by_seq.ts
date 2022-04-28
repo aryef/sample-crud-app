@@ -8,27 +8,25 @@ import {
 import { isEmpty } from '../../../../common/utils';
 import PG_DATA from '../../data_init/pg_data';
 
-export const getCustomerById: (
+export const getCustomerBySeq: (
     id: string,
-) => Promise<ICustomer[] | null | void> = async (
-    customer_id: string,
-) => {
-    if (customer_id && !isEmpty(customer_id)) {
+) => Promise<ICustomer[] | null | void> = async (seq: string) => {
+    if (seq && !isEmpty(seq)) {
         try {
             return PG_DATA<ICustomer>('customer')
                 .withSchema(CUSTOMER_DATA_SCHEMA)
-                .where('customer_id', customer_id)
+                .where('seq', seq)
                 .select()
                 .catch((err) => {
-                    log_exception('getCustomerById crashed', err);
+                    log_exception('getCustomerBySeq crashed', err);
                 });
         } catch (err) {
-            log_exception('getCustomerById crashed', err);
+            log_exception('getCustomerBySeq crashed', err);
 
             return null;
         }
     } else {
-        log_warn('getCustomerById : customer_id was not valid');
+        log_warn('getCustomerBySeq : customer_id was not valid');
 
         return null;
     }
