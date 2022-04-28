@@ -1,1 +1,1 @@
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --incognito --auto-open-devtools-for-tabs --allow-insecure-localhost --disable-extensions --window-size=800,600 --window-position=0,0 --user-data-dir=d:\temp\chrome\incognito  https://finboo.ddns.net:40080/
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --incognito --auto-open-devtools-for-tabs --allow-insecure-localhost --disable-extensions --window-size=800,600 --window-position=0,0 --user-data-dir=d:\temp\chrome\incognito  http://localhost:40080/

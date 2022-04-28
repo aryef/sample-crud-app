@@ -57,8 +57,6 @@ const nextConfig = {
         SERVER_LOCAL_IP: process.env.SERVER_LOCAL_IP,
         LOG_LEVEL: parseInt(process.env.LOG_LEVEL),
         SERVER_FQDN: process.env.SERVER_FQDN,
-        SERVICE_PASSWORD_SALT: process.env.SERVICE_PASSWORD_SALT,
-        SOCKET_SERVER_PORT: parseInt(process.env.SOCKET_SERVER_PORT),
         NEXT_PUBLIC_SOCKET_SERVER_URL:
             process.env.NEXT_PUBLIC_SOCKET_SERVER_URL,
         NEXT_PUBLIC_PRINT_MAX_LINES: parseInt(
@@ -69,10 +67,7 @@ const nextConfig = {
     },
     sassOptions: {
         includePaths: [
-            path.join(
-                __dirname,
-                'src/webserver/layers/client/ui/styles/sass',
-            ),
+            path.join(__dirname, '/layers/client/ui/styles/sass'),
         ],
     },
     swcMinify: false,

@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from '../layers/client/ui/styles/Home.module.css';
+import styles from '../layers/client/ui/styles/sass/customer.module.scss';
 
 const Home: NextPage = () => {
     return (

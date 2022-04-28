@@ -39,7 +39,7 @@ export const getCustomerByEmail: (
 
         return null;
     } else {
-        log_warn('db: email was not valid');
+        log_warn('getCustomerByEmail : email was not valid');
 
         return null;
     }

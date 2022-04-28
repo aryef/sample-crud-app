@@ -1,25 +1,51 @@
-import * as Server from '../../../../layers/common/infra/http/cors';
+import { isArray } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import * as Server from '../../../../layers/common/infra/http/cors';
+import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
+import {
+    log_error,
+    log_info,
+} from '../../../../layers/common/logger/logger';
+import { isEmpty } from '../../../../layers/common/utils';
+import { getCustomerByEmail } from '../../../../layers/server/data_layer/queries/customer/get_customer_by_email';
 
-const getHealth: () => Promise<Data> = async () => {
-
-  return  { ok: true };
+const getCustomer: (
+    email: string,
+) => Promise<ICustomer | null> = async (email) => {
+    return await getCustomerByEmail(email);
 };
 
-type Data = { ok: boolean };
-
-export default async function health(
-  _req: NextApiRequest,
-  res: NextApiResponse<Data>,
+export default async function get_customer(
+    _req: NextApiRequest,
+    res: NextApiResponse<ICustomer | { error: string }>,
 ) {
-  await Server.cors(_req, res);
+    await Server.cors(_req, res);
 
-  let result: Data = { ok: false };
+    let result: ICustomer;
 
-  await getHealth().then((reslt) => {
-    result = reslt;
-  });
+    //const email = getKeyValue(_req.query, 'email');
+    const email: string | string[] = _req.query['email'];
 
+    if (!isEmpty(email) && !isArray(email)) {
+        await getCustomer(email)
+            .then((reslt) => {
+                if (reslt && reslt !== null) {
+                    result = reslt;
 
-  res.status(200).json( result );
+                    log_info(`data retruned`, reslt);
+                    return res.status(200).json(result);
+                } else {
+                    log_info(`no data returned`);
+                    return res.status(402).json(result);
+                }
+            })
+            .catch((err) => {
+                log_error(`data crashed`, err);
+                return res
+                    .status(501)
+                    .send({ error: `no user found ${err}` });
+            });
+    } else {
+        return res.status(501).send({ error: `input invalid` });
+    }
 }

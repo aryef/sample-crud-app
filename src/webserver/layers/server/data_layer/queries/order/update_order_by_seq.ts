@@ -7,7 +7,7 @@ import {
     log_warn,
 } from '../../../../common/logger/logger';
 import { isEmpty } from '../../../../common/utils';
-import PG_DATA from '../../data_init/pg_data';
+import getPgDb from '../../data_init/get_pg_db';
 import { getOrderBySeq } from './get_order_by_seq';
 
 export const updateOrder: (
@@ -15,7 +15,7 @@ export const updateOrder: (
 ) => Promise<IOrder | null> = async (order: IOrder) => {
     if (order && !isEmpty(order.seq)) {
         try {
-            const ret: void | number = await PG_DATA<IOrder>(
+            const ret: void | number = await getPgDb<IOrder>(
                 'customer',
             )
                 .withSchema(CUSTOMER_DATA_SCHEMA)

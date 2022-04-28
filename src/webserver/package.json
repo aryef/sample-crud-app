@@ -6,7 +6,7 @@
         "compile-ts-all": "tsc --project tsconfig.json",
         "lint": "next lint",
         "build-next": "next build",
-        "dev-next": "next dev -p 50080",
+        "dev-next": "next dev -p 40080",
         "clean-all": "npm-run-all clean-next clean-out clean-dist",
         "launch_brave_incognito": "../../scripts/launchers/launch_brave_incognito.cmd",
         "launch_chrome_incognito": "../../scripts/launchers/launch_chrome_incognito.cmd",

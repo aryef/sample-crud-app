@@ -25,7 +25,7 @@ export const createCustomer: (
             .withSchema(CUSTOMER_DATA_SCHEMA)
             .insert(customer)
             .catch(function (err) {
-                log_exception('createUser crashed', err);
+                log_exception('createCustomer crashed', err);
             });
     } catch (err) {
         log_exception('createCustomer crashed', err);

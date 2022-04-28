@@ -40,7 +40,7 @@ export const getCustomerById: (
 
         return null;
     } else {
-        log_warn('db: customer_id was not valid');
+        log_warn('getCustomerById: customer_id was not valid');
 
         return null;
     }

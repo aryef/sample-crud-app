@@ -5,7 +5,7 @@ import pg_db from '../db_init/pg_knex_db';
 
 let pg_object: Knex;
 
-const PG_DATA: () => Knex = () => {
+const getPgDb: () => Knex = () => {
     if (!pg_object) {
         try {
             pg_object = pg_db(pg_config);
@@ -18,4 +18,4 @@ const PG_DATA: () => Knex = () => {
     return pg_object;
 };
 
-export default PG_DATA;
+export default getPgDb;

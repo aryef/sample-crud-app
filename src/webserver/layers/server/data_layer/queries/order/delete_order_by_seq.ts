@@ -4,14 +4,14 @@ import {
     log_warn,
 } from '../../../../common/logger/logger';
 import { isEmpty } from '../../../../common/utils';
-import PG_DATA from '../../data_init/pg_data';
+import getPgDb from '../../data_init/get_pg_db';
 
 export const deleteOrderBySeq: (
     seq: string,
 ) => Promise<boolean> = async (seq: string) => {
     if (seq && !isEmpty(seq)) {
         try {
-            await PG_DATA<ICustomer>('customer')
+            await getPgDb<ICustomer>('customer')
                 .withSchema('public')
                 .where('seq', seq)
                 .del()

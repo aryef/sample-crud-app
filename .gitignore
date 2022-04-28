@@ -186,3 +186,4 @@ temp
 /src/webserver/yarn.lock
 /src/webserver/tmp/**/*
 /io_db/**/*
+**/*/.idea/**/*

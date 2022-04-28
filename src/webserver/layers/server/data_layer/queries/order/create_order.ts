@@ -4,7 +4,7 @@ import { ICustomer } from '../../../../common/interface/data/ICustomer';
 import { IOrder } from '../../../../common/interface/data/IOrder';
 import { log_exception } from '../../../../common/logger/logger';
 import { generate_uuid } from '../../../../common/utils';
-import PG_DATA from '../../data_init/pg_data';
+import getPgDb from '../../data_init/get_pg_db';
 import { getOrderBySeq } from './get_order_by_seq';
 
 export const createOrder: (
@@ -22,7 +22,7 @@ export const createOrder: (
     };
 
     try {
-        await PG_DATA<ICustomer>('customer')
+        await getPgDb<ICustomer>('customer')
             .withSchema(CUSTOMER_DATA_SCHEMA)
             .insert(newOrder)
             .catch(function (err) {

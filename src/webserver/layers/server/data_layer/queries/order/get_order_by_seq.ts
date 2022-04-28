@@ -7,14 +7,14 @@ import {
     log_warn,
 } from '../../../../common/logger/logger';
 import { isEmpty } from '../../../../common/utils';
-import PG_DATA from '../../data_init/pg_data';
+import getPgDb from '../../data_init/get_pg_db';
 
 export const getOrderBySeq: (
     seq: string,
 ) => Promise<IOrder | null> = async (seq: string) => {
     if (seq && !isEmpty(seq)) {
         try {
-            const ret: void | IOrder[] = await PG_DATA<IOrder>(
+            const ret: void | IOrder[] = await getPgDb<IOrder>(
                 'customer',
             )
                 .withSchema(CUSTOMER_DATA_SCHEMA)

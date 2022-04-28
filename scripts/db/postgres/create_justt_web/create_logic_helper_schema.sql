@@ -157,5 +157,59 @@ $BODY$
 ALTER FUNCTION logic_helper.fn_set_schema(character varying)
   OWNER TO justt_data_loader;
 
+
+CREATE FUNCTION logic_helper.fn_user_data_trg()
+    RETURNS TRIGGER LANGUAGE plpgsql VOLATILE
+AS
+$$
+DECLARE
+
+    const_not_checkable_cols TEXT[] :=
+        ARRAY[
+            'data_json',
+            'created_at',
+            'create_user',
+            'updated_at',
+            'update_user'];
+
+BEGIN
+
+    NEW.data_json = jsonb_build_object(quote_ident(TG_TABLE_NAME),
+                                       row_to_json(NEW.*)::jsonb - const_not_checkable_cols );
+
+    NEW.updated_at = now()::timestamp(3);
+    NEW.update_user = current_user;
+
+    RETURN NEW;
+
+END;
+$$;
+
+ALTER FUNCTION logic_helper.fn_user_data_trg ()
+    OWNER TO justt_data_loader ;
+
+
 GRANT EXECUTE ON FUNCTION logic_helper.fn_set_schema(character varying) TO public;
 GRANT EXECUTE ON FUNCTION logic_helper.fn_set_schema(character varying) TO justtuser;
+
+CREATE or replace function logic_helper.to_lower (str character varying)
+    returns character varying as
+$BODY$
+declare
+
+BEGIN
+
+    IF str IS NULL OR str='' THEN
+        RETURN str;
+    END IF;
+
+
+    return lower(str);
+
+end
+$BODY$
+    immutable
+    language plpgsql
+    cost 100;
+
+alter function logic_helper.to_lower(character varying) owner to justt_data_loader;
