@@ -7,12 +7,12 @@ import {
     log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
-import { getCustomerByEmail } from '../../../../layers/server/data_layer/queries/customer/get_customer_by_email';
+import { getCustomerByEmailWithOrders } from '../../../../layers/server/business_layer/get_customer_by_email_with_orders';
 
 const getCustomer: (
     email: string,
 ) => Promise<ICustomer | null> = async (email) => {
-    return await getCustomerByEmail(email);
+    return await getCustomerByEmailWithOrders(email);
 };
 
 export default async function get_customer(
