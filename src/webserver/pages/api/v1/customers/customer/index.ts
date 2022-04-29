@@ -1,13 +1,13 @@
 import { isArray } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import * as Server from '../../../../layers/common/infra/http/cors';
-import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
+import * as Server from '../../../../../layers/common/infra/http/cors';
+import { ICustomer } from '../../../../../layers/common/interface/data/ICustomer';
 import {
     log_error,
     log_info,
-} from '../../../../layers/common/logger/logger';
-import { isEmpty } from '../../../../layers/common/utils';
-import { blGetCustomerByEmailWithOrders } from '../../../../layers/server/business_layer/bl_get_customer_by_email_with_orders';
+} from '../../../../../layers/common/logger/logger';
+import { isEmpty } from '../../../../../layers/common/utils';
+import { blGetCustomerByEmailWithOrders } from '../../../../../layers/server/business_layer/bl_get_customer_by_email_with_orders';
 
 const getCustomer: (
     email: string,

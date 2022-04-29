@@ -34,6 +34,34 @@
 			"response": []
 		},
 		{
+			"name": "get_customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:40080/api/v1/customer/get_customers?page=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "40080",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"get_customers"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "health",
 			"request": {
 				"method": "GET",

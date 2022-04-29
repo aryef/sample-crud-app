@@ -1,39 +1,44 @@
 import { isArray } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import * as Server from '../../../../layers/common/infra/http/cors';
-import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
+import { IOrder } from '../../../../layers/common/interface/data/IOrder';
 import {
     log_error,
     log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
-import { blGetCustomerByEmailWithOrders } from '../../../../layers/server/business_layer/bl_get_customer_by_email_with_orders';
+import { isString } from '../../../../layers/common/utils/string_helper';
+import { blGetOrder } from '../../../../layers/server/business_layer/bl_get_order';
 
-const getOrder: (email: string) => Promise<ICustomer | null> = async (
-    email,
+const getOrder: (seq: string) => Promise<IOrder | null> = async (
+    seq,
 ) => {
-    return await blGetCustomerByEmailWithOrders(email);
+    return await blGetOrder(seq);
 };
 
-export default async function get_customer(
+export default async function get_order(
     req: NextApiRequest,
-    res: NextApiResponse<ICustomer | { error: string }>,
+    res: NextApiResponse<IOrder | { error: string }>,
 ) {
     if (req.method === 'GET') {
         await Server.cors(req, res);
 
-        let result: ICustomer;
+        let result: IOrder;
 
         //const email = getKeyValue(_req.query, 'email');
-        const email: string | string[] = req.query['email'];
+        const order_seq: string | string[] = req.query['seq'];
 
-        if (!isEmpty(email) && !isArray(email)) {
-            await getOrder(email)
-                .then((reslt) => {
-                    if (reslt && reslt !== null) {
-                        result = reslt;
+        if (
+            !isEmpty(order_seq) &&
+            !isArray(order_seq) &&
+            isString(order_seq)
+        ) {
+            await getOrder(order_seq as string)
+                .then((order) => {
+                    if (order && order !== null) {
+                        result = order;
 
-                        log_info(`data returned`, reslt);
+                        log_info(`data returned`, order);
                         return res.status(200).json(result);
                     } else {
                         log_info(`no data returned`);
