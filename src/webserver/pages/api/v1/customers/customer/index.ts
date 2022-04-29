@@ -7,6 +7,7 @@ import {
     log_info,
 } from '../../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../../layers/common/utils';
+import { isString } from '../../../../../layers/common/utils/string_helper';
 import { blGetCustomerByEmailWithOrders } from '../../../../../layers/server/business_layer/bl_get_customer_by_email_with_orders';
 
 const getCustomer: (
@@ -24,10 +25,9 @@ export default async function get_customer(
 
         let result: ICustomer;
 
-        //const email = getKeyValue(_req.query, 'email');
         const email: string | string[] = req.query['email'];
 
-        if (!isEmpty(email) && !isArray(email)) {
+        if (!isEmpty(email) && !isArray(email) && isString(email)) {
             await getCustomer(email as string)
                 .then((customer) => {
                     if (customer && customer !== null) {
