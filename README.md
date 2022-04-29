@@ -1,6 +1,6 @@
 # Justt Home Assignment
 
-### Sample Customer/Order CRUD application
+### Sample Order/Order CRUD application
 
 ## Environment
 * Windows 10 with WSL2 & Docker Desktop 

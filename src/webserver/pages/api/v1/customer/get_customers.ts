@@ -1,3 +1,4 @@
+import { IWithPagination } from 'knex-paginate';
 import { isArray } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import * as Server from '../../../../layers/common/infra/http/cors';
@@ -7,34 +8,38 @@ import {
     log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
-import { blGetCustomerByEmailWithOrders } from '../../../../layers/server/business_layer/bl_get_customer_by_email_with_orders';
+import { isString } from '../../../../layers/common/utils/string_helper';
 
-const getOrder: (email: string) => Promise<ICustomer | null> = async (
-    email,
-) => {
-    return await blGetCustomerByEmailWithOrders(email);
+import { blGetCustomers } from '../../../../layers/server/business_layer/bl_get_customers';
+
+const getCustomers: (
+    page: number,
+) => Promise<IWithPagination<
+    ICustomer,
+    { perPage: 10; currentPage: number }
+> | null> = async (page: number) => {
+    return await blGetCustomers(page);
 };
 
-export default async function get_customer(
+export default async function get_customers(
     req: NextApiRequest,
-    res: NextApiResponse<ICustomer | { error: string }>,
+    res: NextApiResponse<ICustomer[] | { error: string }>,
 ) {
     if (req.method === 'GET') {
         await Server.cors(req, res);
 
-        let result: ICustomer;
+        const page: string | string[] = req.query['page'];
 
-        //const email = getKeyValue(_req.query, 'email');
-        const email: string | string[] = req.query['email'];
+        let result: ICustomer[];
 
-        if (!isEmpty(email) && !isArray(email)) {
-            await getOrder(email)
-                .then((reslt) => {
-                    if (reslt && reslt !== null) {
-                        result = reslt;
+        if (!isEmpty(page) && !isArray(page) && isString(page)) {
+            const pag: number = parseInt(page as string);
 
-                        log_info(`data returned`, reslt);
-                        return res.status(200).json(result);
+            await getCustomers(pag)
+                .then((customers) => {
+                    if (customers && customers !== null) {
+                        log_info(`data returned`, customers);
+                        return res.status(200).json(customers.data);
                     } else {
                         log_info(`no data returned`);
                         return res.status(405).json(result);
@@ -47,7 +52,7 @@ export default async function get_customer(
                         .send({ error: `no user found ${err}` });
                 });
         } else {
-            return res.status(501).send({ error: `input invalid` });
+            return res.status(501).send({ error: `page invalid` });
         }
     } else {
         return res

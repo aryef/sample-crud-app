@@ -8,7 +8,7 @@ import { getCustomerAddressByCustomerSeq } from '../data_layer/queries/customer_
 import { getCustomerPersonalByCustomerSeq } from '../data_layer/queries/customer_detail/personal/get_customer_personal_by_customer_seq';
 import { getOrdersByCustomerSeq } from '../data_layer/queries/order/get_orders_by_customer_seq';
 
-export const getCustomerByEmailWithOrders: (
+export const blGetCustomerByEmailWithOrders: (
     email: string,
 ) => Promise<ICustomer | null> = async (email: string) => {
     let customers: ICustomer[] | null | void = null;

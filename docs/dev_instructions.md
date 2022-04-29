@@ -87,7 +87,7 @@ yarn add -D jest @types/jest @babel/core @babel/preset-env @babel/preset-typescr
 
 mkdir tests
 
-add file index.test.ts
+add file get_customer.test.ts
 
 configure .babelrc, tests/tsconfig.json
 
@@ -189,7 +189,7 @@ mkdir ./tests/types-dtslint
 
 add and configure various configs in this directory
 
-add index and test.ts files for assertions
+add get_customer and test.ts files for assertions
 
 npx dtslint ./tests/types-dtslint/
 

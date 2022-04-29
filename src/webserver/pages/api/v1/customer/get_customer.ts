@@ -7,12 +7,12 @@ import {
     log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
-import { getCustomerByEmailWithOrders } from '../../../../layers/server/business_layer/get_customer_by_email_with_orders';
+import { blGetCustomerByEmailWithOrders } from '../../../../layers/server/business_layer/bl_get_customer_by_email_with_orders';
 
 const getCustomer: (
     email: string,
 ) => Promise<ICustomer | null> = async (email) => {
-    return await getCustomerByEmailWithOrders(email);
+    return await blGetCustomerByEmailWithOrders(email);
 };
 
 export default async function get_customer(
@@ -28,12 +28,12 @@ export default async function get_customer(
         const email: string | string[] = req.query['email'];
 
         if (!isEmpty(email) && !isArray(email)) {
-            await getCustomer(email)
-                .then((reslt) => {
-                    if (reslt && reslt !== null) {
-                        result = reslt;
+            await getCustomer(email as string)
+                .then((customer) => {
+                    if (customer && customer !== null) {
+                        result = customer;
 
-                        log_info(`data returned`, reslt);
+                        log_info(`data returned`, customer);
                         return res.status(200).json(result);
                     } else {
                         log_info(`no data returned`);
@@ -44,7 +44,7 @@ export default async function get_customer(
                     log_error(`data crashed`, err);
                     return res
                         .status(501)
-                        .send({ error: `no user found ${err}` });
+                        .send({ error: `no customer found ${err}` });
                 });
         } else {
             return res.status(501).send({ error: `input invalid` });

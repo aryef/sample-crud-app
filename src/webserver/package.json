@@ -18,7 +18,6 @@
         "kill-pm2": "pm2 kill",
         "telemetry-off": "npx next telemetry disable",
         "clean-next": "npx rimraf .next"
-
     },
     "dependencies": {
         "axios": "0.26.1",
@@ -27,6 +26,7 @@
         "cors": "2.8.5",
         "dotenv": "10.0.0",
         "knex": "0.95.15",
+        "knex-paginate": "^3.0.1",
         "lodash": "4.17.21",
         "luxon": "2.3.0",
         "next": "12.1.0",
