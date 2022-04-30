@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTable } from 'react-table';
+import { useSortBy, useTable } from 'react-table';
 
 const Table: ({
     columns,
@@ -17,6 +17,7 @@ const Table: ({
     } = useTable({
         columns,
         data,
+        useSortBy,
     });
 
     return (
@@ -25,8 +26,21 @@ const Table: ({
                 {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
-                            <th {...column.getHeaderProps()}>
+                            <th
+                                {...column.getHeaderProps()}
+                                style={{
+                                    borderBottom: 'solid 3px red',
+                                    color: 'black',
+                                }}
+                            >
                                 {column.render('Header')}
+                                <span>
+                                    {column.isSorted
+                                        ? column.isSortedDesc
+                                            ? '🔽'
+                                            : '🔼'
+                                        : ''}
+                                </span>
                             </th>
                         ))}
                     </tr>
@@ -39,7 +53,13 @@ const Table: ({
                         <tr {...row.getRowProps()}>
                             {row.cells.map((cell) => {
                                 return (
-                                    <td {...cell.getCellProps()}>
+                                    <td
+                                        {...cell.getCellProps()}
+                                        style={{
+                                            padding: '8px',
+                                            border: 'solid 1px gray',
+                                        }}
+                                    >
                                         {cell.render('Cell')}
                                     </td>
                                 );

@@ -66,6 +66,7 @@
 * user session management
 * API protection (like with Bearer Token etc.)
 * SSL/HTTPS
+* implement React-Bootstrap for cool styling
 * input data sanitation
 * customer list pagination, search , sorting and filtering 
 * order editing (PUT method implementation)
