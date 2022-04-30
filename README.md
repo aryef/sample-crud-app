@@ -1,8 +1,5 @@
-# Justt Home Assignment
-
+# Sample Customer/Order CRUD application
 #### Arye Friedman / arye.friedman@gmail.com
-
-### Sample Order/Order CRUD application
 
 ## Technologies implemented / used
 * Node.js
@@ -18,10 +15,12 @@
 
 # Architecture
 
-* 3-tier application on server side (data layer, business layer, http)
+* 3-tier application on server side (data layer, business layer, web api/REST)
 * 2-tier on client side (presentation layer - tsx/jsx, api/data layer)
-* SASS + styled-components for styling
-* hookstate for global state management
+  * SASS + styled-components for styling
+  * Local Storage for data persistence
+  * hookstate for state management (TODO)
+  * react-table for data presentation
 
 
 ## Environment
@@ -41,15 +40,36 @@
 ## Runtime
   * Dockerize the application using Dockerfile in the root directory
 
-## TODOS
+## Project structure
+
+### ./containers
+* includes script for loading PG server container 
+
+### ./docs
+
+* project specs
+* dev environment instructions
+
+### ./scripts
+
+* db - create project db, users, schema and helpers scripts
+* launchers - script to launch browsers configured for development and testing
+* migration - Python scripts for data migration to PG from input json data
+
+### ./src/webserver
+* Next.js based web application
+### ./tests
+* Postman collection file for api testing (newman can be used to launch it with script)
+
+## TODOS (of course it is a quite partial list wha can be done more )
 * user authentication 
 * user session management
 * API protection (like with Bearer Token etc.)
 * SSL/HTTPS
 * input data sanitation
-* check integrity of data input && transactions management
+* PUT order (order modification)
+* fully ensure integrity of data input && transactions management (foreign keys etc)
 * sensitive data end-to-end encryption
-* use jest for better unit testing
-* use docker-compose 
+* use docker-compose to wrap up everything
 * logs delivery to a central log service
 

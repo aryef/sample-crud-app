@@ -34,7 +34,7 @@ export async function getCustomers(
                 if (!isEmpty(response.data)) {
                     try {
                         LocalStorage.setItem(
-                            Constants.CUSTOMERS_KEY,
+                            Constants.CUSTOMERS_DATA_KEY,
                             response.data || '',
                         );
                         log_info(

@@ -80,7 +80,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"customer_seq\":\"14f8feb0-6ee2-465e-b4ee-1f6739d2a414\",\r\n\"transaction_ccy\":\"ILS\",\r\n\"credit_card_type\":\"ISRACARD\",\r\n\"credit_card_number_encrypted\":\"123456789\",\r\n\"credit_card_last_four_digits\":\"6789\",\r\n\"transaction_amount\":\"10000\"\r\n}",
+					"raw": "{\r\n\"customer_seq\":\"14f8feb0-6ee2-465e-b4ee-1f6739d2a414\",\r\n\"transaction_ccy\":\"ILS\",\r\n\"credit_card_type\":\"VISA LEUMI\",\r\n\"credit_card_number_encrypted\":\"123456789\",\r\n\"credit_card_last_four_digits\":\"6789\",\r\n\"transaction_amount\":\"12000\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -110,7 +110,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:40080/api/v1/orders/order?seq=1278c481-d652-4d74-8c4b-e77629249241",
+					"raw": "http://localhost:40080/api/v1/orders/order?seq=1f56bcdd-df4c-4ac2-a4f5-033242fd74a7",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -125,7 +125,7 @@
 					"query": [
 						{
 							"key": "seq",
-							"value": "1278c481-d652-4d74-8c4b-e77629249241"
+							"value": "1f56bcdd-df4c-4ac2-a4f5-033242fd74a7"
 						}
 					]
 				}

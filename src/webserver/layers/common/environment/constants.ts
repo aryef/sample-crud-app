@@ -1,7 +1,7 @@
 // NOTE(jim): You should change these values to match your service.
 export const SESSION_KEY = 'JUSTT_SESSION_KEY';
 
-export const CUSTOMERS_KEY = 'CUSTOMERS';
+export const CUSTOMERS_DATA_KEY = 'CUSTOMERS';
 
 export const LOG_LEVELS = {
     EXCEPTION: 5,
