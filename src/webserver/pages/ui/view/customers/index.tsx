@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useLocalStorage } from '../../../../layers/client/hooks/local_storage_hook';
 import * as Requests from '../../../../layers/client/http/requests_client';
 import Table from '../../../../layers/client/ui/components/common/Table';
+
+import styles from '../../../../layers/client/ui/styles/sass/Home.module.css';
 import * as Constants from '../../../../layers/common/environment/constants';
 import { IHttpResponse } from '../../../../layers/common/infra/http/IHttpResponse';
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
@@ -45,11 +47,11 @@ export default function Customers() {
             },
             {
                 // first group - TV Show
-                Header: 'enter customer details && orders',
+                Header: 'customer details',
                 // First group columns
                 columns: [
                     {
-                        Header: 'seq',
+                        Header: '...',
                         accessor: 'seq',
                     },
                 ],
@@ -80,8 +82,10 @@ export default function Customers() {
     }, []);
     return (
         <>
-            <Title>Customers</Title>
-            <Table columns={columns} data={customers_data} />
+            <div className={styles.description}>
+                <Title>Customers Data</Title>
+                <Table columns={columns} data={customers_data} />
+            </div>
         </>
     );
 }

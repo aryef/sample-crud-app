@@ -8,7 +8,7 @@
 * Knex (with pagination plugin)
 * Typescript
 * Volta (for easier node/yarn version management during development)
-* Postgresql with PostGIS
+* Postgresql with PostGIS (using my own custom image at docker.io/aryef)
 * Python (for data migration)
 * Docker (Postgres and Node.js containerization)
 * Postman + newman for api testing /unit testing
@@ -67,7 +67,8 @@
 * API protection (like with Bearer Token etc.)
 * SSL/HTTPS
 * input data sanitation
-* PUT order (order modification)
+* customer list pagination, search , sorting and filtering 
+* order editing (PUT method implementation)
 * fully ensure integrity of data input && transactions management (foreign keys etc)
 * sensitive data end-to-end encryption
 * use docker-compose to wrap up everything
