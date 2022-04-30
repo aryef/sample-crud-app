@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useLocalStorage } from '../../../../layers/client/hooks/local_storage_hook';
 import * as Requests from '../../../../layers/client/http/requests_client';
+import Table from '../../../../layers/client/ui/components/common/Table';
 import * as Constants from '../../../../layers/common/environment/constants';
 import { IHttpResponse } from '../../../../layers/common/infra/http/IHttpResponse';
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
@@ -35,11 +35,22 @@ export default function Customers() {
                 columns: [
                     {
                         Header: 'id',
-                        accessor: 'show.customer_id',
+                        accessor: 'customer_id',
                     },
                     {
                         Header: 'email',
-                        accessor: 'show.email',
+                        accessor: 'email',
+                    },
+                ],
+            },
+            {
+                // first group - TV Show
+                Header: 'enter customer details && orders',
+                // First group columns
+                columns: [
+                    {
+                        Header: 'seq',
+                        accessor: 'seq',
                     },
                 ],
             },
@@ -70,19 +81,7 @@ export default function Customers() {
     return (
         <>
             <Title>Customers</Title>
-            <ul>
-                {customers_data.map((item: ICustomer) => (
-                    <li key={item.customer_id}>
-                        <div>{item.customer_id}</div>
-                        <div>{item.email}</div>
-                        <div>
-                            <Link href="/ui/view/customers/customer?">
-                                <a>customers</a>
-                            </Link>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            <Table columns={columns} data={customers_data} />
         </>
     );
 }
