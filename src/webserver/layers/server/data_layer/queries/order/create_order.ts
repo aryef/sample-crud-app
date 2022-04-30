@@ -14,10 +14,14 @@ export const createOrder: (
 
     const newOrder: IOrder = {
         seq: seq,
-        total_price: order.total_price,
-        currency: order.currency,
+        customer_seq: order.customer_seq,
+        transaction_ccy: order.transaction_ccy,
+        transaction_amount: order.transaction_amount,
         credit_card_type: order.credit_card_type,
-        credit_card_number: order.credit_card_number,
+        credit_card_number_encrypted:
+            order.credit_card_number_encrypted,
+        credit_card_last_four_digits:
+            order.credit_card_last_four_digits,
         updated_at: DateTime.local(),
     };
 

@@ -1,12 +1,17 @@
-import { isEmpty } from "../../common/utils/string_helper";
-import { log_debug, log_error, log_exception } from "../../common/logger/logger";
-import getCustomAxios, { API_BASE_URL, REQUEST_HEADERS } from "../../common/infra/http/customAxios";
-import { IHttpResponse } from "../../common/infra/http/IHttpResponse";
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
+import getCustomAxios, {
+    API_BASE_URL,
+} from '../../common/infra/http/customAxios';
+import { IHttpResponse } from '../../common/infra/http/IHttpResponse';
+import {
+    log_debug,
+    log_error,
+    log_exception,
+} from '../../common/logger/logger';
+import { isEmpty } from '../../common/utils/string_helper';
 
 dotenv.config();
-const baseUrl:string =  `${process.env.PROTOCOL}://${process.env.SERVER_FQDN}:${process.env.WEBSITE_PORT}${API_BASE_URL}`;
-
+const baseUrl: string = `${process.env.PROTOCOL}://${process.env.SERVER_FQDN}:${process.env.WEBSITE_PORT}${API_BASE_URL}`;
 
 export async function get(route: string): Promise<IHttpResponse> {
     let data: {} | null = null;
@@ -16,9 +21,7 @@ export async function get(route: string): Promise<IHttpResponse> {
 
     const errDesc: string = 'GET crashed';
 
-    log_debug(
-        `get route=${baseUrl}/${route}`,
-    );
+    log_debug(`get route=${baseUrl}/${route}`);
 
     if (!isEmpty(route)) {
         try {
@@ -43,8 +46,9 @@ export async function get(route: string): Promise<IHttpResponse> {
                     log_debug(`${baseUrl}/${route} `, data);
                 })
                 .catch((err: any) => {
-
-                     error = `${errDesc} while fetching ${baseUrl}/${route ||'unknown'} `;
+                    error = `${errDesc} while fetching ${baseUrl}/${
+                        route || 'unknown'
+                    } `;
 
                     log_exception(error, err);
                 });
@@ -55,7 +59,6 @@ export async function get(route: string): Promise<IHttpResponse> {
                 success: success,
             };
         } catch (err: any) {
-
             error = `${errDesc} axiosClient was not initialized.. ${baseUrl}/${route}`;
 
             log_exception(error, err);
@@ -84,9 +87,7 @@ export async function post(
     const errDesc: string = 'POST CRASH';
 
     if (!isEmpty(route)) {
-        log_debug(
-            `post route=${baseUrl}/${route}`,
-        );
+        log_debug(`post route=${baseUrl}/${route}`);
 
         //TODO remove token from payload
         payload.token = token;
@@ -95,8 +96,7 @@ export async function post(
             const axiosClient = getCustomAxios();
 
             axiosClient.defaults.baseURL =
-                process.env.NEXT_PUBLIC_WEBSITE_URL +
-                API_BASE_URL;
+                process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
 
             await axiosClient
                 .post(`/${route}`, payload, {
@@ -114,11 +114,15 @@ export async function post(
                     if (isEmpty(error)) {
                         success = true;
                     }
-                    log_debug(`post route = ${baseUrl}/${route} `, data);
+                    log_debug(
+                        `post route = ${baseUrl}/${route} `,
+                        data,
+                    );
                 })
                 .catch((err: any) => {
-
-                    error = `${errDesc} while fetching  ${baseUrl}/${route ||'unknown'} `;
+                    error = `${errDesc} while fetching  ${baseUrl}/${
+                        route || 'unknown'
+                    } `;
 
                     log_error(error, err);
                 });
@@ -135,7 +139,7 @@ export async function post(
             log_exception(error, err);
         }
     } else {
-      error = errDesc + ' route was empty';
+        error = errDesc + ' route was empty';
     }
 
     return {
@@ -158,11 +162,8 @@ export async function del(route: string): Promise<IHttpResponse> {
         try {
             const axiosClient = getCustomAxios();
 
-
-
             axiosClient.defaults.baseURL =
-                process.env.NEXT_PUBLIC_WEBSITE_URL +
-                API_BASE_URL;
+                process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
 
             await axiosClient
                 .get(`${API_BASE_URL}/${route}`, {
@@ -182,8 +183,9 @@ export async function del(route: string): Promise<IHttpResponse> {
                     log_debug(`del route=${baseUrl}/${route} `, data);
                 })
                 .catch((err) => {
-
-                    error = `${errDesc} while deleting  ${baseUrl}/${route ||'unknown'} `;
+                    error = `${errDesc} while deleting  ${baseUrl}/${
+                        route || 'unknown'
+                    } `;
 
                     log_exception(error, err);
                 });
@@ -200,7 +202,7 @@ export async function del(route: string): Promise<IHttpResponse> {
             log_exception(error, err);
         }
     } else {
-      error = errDesc + ' route was empty';
+        error = errDesc + ' route was empty';
     }
 
     return {

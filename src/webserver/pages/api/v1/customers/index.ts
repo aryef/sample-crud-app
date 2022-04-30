@@ -49,7 +49,7 @@ export default async function get_customers(
                     log_error(`data crashed`, err);
                     return res
                         .status(501)
-                        .send({ error: `no user found ${err}` });
+                        .send({ error: `no customers found ${err}` });
                 });
         } else {
             return res.status(501).send({ error: `page invalid` });

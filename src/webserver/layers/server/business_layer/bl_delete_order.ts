@@ -1,12 +1,11 @@
-import { IOrder } from '../../common/interface/data/IOrder';
 import { log_exception } from '../../common/logger/logger';
 import { deleteOrderBySeq } from '../data_layer/queries/order/delete_order_by_seq';
 
 export const blDeleteOrder: (
-    order: IOrder,
-) => Promise<boolean | null> = async (order: IOrder) => {
+    order_seq: string,
+) => Promise<boolean | null> = async (order_seq: string) => {
     try {
-        return await deleteOrderBySeq(order.seq || '');
+        return await deleteOrderBySeq(order_seq);
     } catch (error) {
         log_exception('blDeleteOrder', error);
         return null;

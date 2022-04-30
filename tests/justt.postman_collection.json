@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:40080/api/v1/customer/get_customer?email=babberley0@artisteer.com",
+					"raw": "http://localhost:40080/api/v1/customers/customer?email=babberley0@artisteer.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -20,8 +20,8 @@
 					"path": [
 						"api",
 						"v1",
-						"customer",
-						"get_customer"
+						"customers",
+						"customer"
 					],
 					"query": [
 						{
@@ -34,12 +34,12 @@
 			"response": []
 		},
 		{
-			"name": "get_customers",
+			"name": "get_order",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:40080/api/v1/customer/get_customers?page=1",
+					"raw": "http://localhost:40080/api/v1/orders/order?seq=1278c481-d652-4d74-8c4b-e77629249241",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -48,8 +48,35 @@
 					"path": [
 						"api",
 						"v1",
-						"customer",
-						"get_customers"
+						"orders",
+						"order"
+					],
+					"query": [
+						{
+							"key": "seq",
+							"value": "1278c481-d652-4d74-8c4b-e77629249241"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:40080/api/v1/customers?page=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "40080",
+					"path": [
+						"api",
+						"v1",
+						"customers"
 					],
 					"query": [
 						{

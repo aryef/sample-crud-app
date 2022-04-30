@@ -1,6 +1,6 @@
 import { IOrder } from '../../common/interface/data/IOrder';
 import { log_exception } from '../../common/logger/logger';
-import { getOrdersByCustomerSeq } from '../data_layer/queries/order/get_orders_by_customer_seq';
+import { getOrderBySeq } from '../data_layer/queries/order/get_order_by_seq';
 
 export const blGetOrder: (
     seq: string,
@@ -8,7 +8,7 @@ export const blGetOrder: (
     let orders: IOrder[] | null | void = null;
 
     try {
-        orders = await getOrdersByCustomerSeq(seq);
+        orders = await getOrderBySeq(seq);
 
         if (orders && orders.length > 0) {
             return orders[0];
