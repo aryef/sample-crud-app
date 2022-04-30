@@ -155,7 +155,10 @@ export async function post(
     };
 }
 
-export async function del(route: string): Promise<IHttpResponse> {
+export async function del(
+    route: string,
+    seq: string,
+): Promise<IHttpResponse> {
     let data: {} | null = null;
     let error: string | null = null;
     let token: string | null = addAuthorizationToHeaders();
@@ -171,7 +174,7 @@ export async function del(route: string): Promise<IHttpResponse> {
                 process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
 
             await axiosClient
-                .get(`${API_BASE_URL}/${route}`, {
+                .delete(`${API_BASE_URL}/${route}/seq=${seq}`, {
                     url: API_BASE_URL,
                     headers: {
                         authorization: token,
