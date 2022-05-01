@@ -23,14 +23,23 @@ const getCustomers: (
 
 export default async function get_customers(
     req: NextApiRequest,
-    res: NextApiResponse<ICustomer[] | { error: string }>,
+    res: NextApiResponse<
+        | IWithPagination<
+              ICustomer,
+              { perPage: 10; currentPage: number }
+          >
+        | { error: string }
+    >,
 ) {
     if (req.method === 'GET') {
         await Server.cors(req, res);
 
         const page: string | string[] = req.query['page'];
 
-        let result: ICustomer[];
+        let result: IWithPagination<
+            ICustomer,
+            { perPage: 10; currentPage: number }
+        >;
 
         if (!isEmpty(page) && !isArray(page) && isString(page)) {
             const pag: number = parseInt(page as string);
@@ -39,7 +48,7 @@ export default async function get_customers(
                 .then((customers) => {
                     if (customers && customers !== null) {
                         log_info(`data returned`, customers);
-                        return res.status(200).json(customers.data);
+                        return res.status(200).json(customers);
                     } else {
                         log_info(`no data returned`);
                         return res.status(405).json(result);

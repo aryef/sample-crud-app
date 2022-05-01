@@ -3,6 +3,8 @@ import getCustomAxios, {
     API_BASE_URL,
 } from '../../common/infra/http/customAxios';
 import { IHttpResponse } from '../../common/infra/http/IHttpResponse';
+
+import { REQUEST_HEADERS } from '../../common/infra/http/REQUEST_HEADERS';
 import {
     log_debug,
     log_error,
