@@ -1,5 +1,6 @@
 import { IWithPagination } from 'knex-paginate';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import ReactPaginate from 'react-paginate';
@@ -15,6 +16,7 @@ import * as Constants from '../../../../layers/common/environment/constants';
 import { IHttpResponse } from '../../../../layers/common/infra/http/IHttpResponse';
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
 import {
+    log_debug,
     log_error,
     log_info,
 } from '../../../../layers/common/logger/logger';
@@ -27,17 +29,18 @@ const Customers = (props) => {
     );
     const [currentPage, setCurrentCurrentPage] = useState(1);
 
-    const paginationHandler = () => {
+    const paginationHandler = (pops) => {
+        log_debug(pops);
         setCurrentCurrentPage((page) => page + 1);
 
         log_info(`current page= ${currentPage}`);
         const currentPath = props.router.pathname;
         const currentQuery = props.router.query;
-        currentQuery.page = currentPage + 1;
+        log_debug(`router.query=${currentQuery}`);
 
         props.router.push({
             pathname: currentPath,
-            query: currentQuery,
+            query: currentPage,
         });
     };
 
@@ -66,6 +69,15 @@ const Customers = (props) => {
                     {
                         Header: '...',
                         accessor: 'seq',
+                    },
+                    {
+                        Details: 'details',
+                        accessor: 'link',
+                        render: () => (
+                            <Link href="/ui/view/customers/customer/">
+                                <a>details</a>
+                            </Link>
+                        ),
                     },
                 ],
             },
