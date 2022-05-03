@@ -20,6 +20,7 @@ import {
     log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
+import lodash from 'lodash';
 
 const Customers = () => {
     const [customers_data, setCustomers_data] = useLocalStorage(
@@ -102,7 +103,7 @@ const Customers = () => {
                 <BootstrapTable
                     bordered
                     keyField="customer_id"
-                    data={customers_data}
+                    data={lodash.values(customers_data)}
                     columns={columns}
                     pagination={paginationFactory()}
                 />
