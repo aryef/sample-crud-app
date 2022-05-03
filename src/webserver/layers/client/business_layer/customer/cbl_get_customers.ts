@@ -53,7 +53,7 @@ export async function cblGetCustomers(
                     resp = {
                         token: response.token,
                         error: null,
-                        data: null,
+                        data: response.data,
                         success: true,
                     };
 

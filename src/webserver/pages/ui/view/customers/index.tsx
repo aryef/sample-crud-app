@@ -6,20 +6,20 @@ import { useEffect, useMemo, useState } from 'react';
 
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import { cblGetCustomers } from '../../../../layers/client/business_layer/customer/cbl_get_customers';
 
 import { useLocalStorage } from '../../../../layers/client/hooks/local_storage_hook';
-import * as Requests from '../../../../layers/client/http/requests_client';
 import ErrorBoundary from '../../../../layers/client/ui/components/common/ErrorBoundary';
-
 import * as Constants from '../../../../layers/common/environment/constants';
+import { PAGINATION_CHUNK } from '../../../../layers/common/environment/constants';
 import { IHttpResponse } from '../../../../layers/common/infra/http/IHttpResponse';
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
+import { IPagination } from '../../../../layers/common/interface/IPagination';
 import {
     log_error,
     log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
-import { IPagination } from '../../../../layers/common/interface/IPagination';
 
 const Customers = () => {
     const [customers_data, setCustomers_data] = useLocalStorage(
@@ -70,7 +70,7 @@ const Customers = () => {
 
     useEffect(() => {
         if (!isEmpty(customers_data)) {
-            Requests.get(`customers?page=${currentPage}`).then(
+            cblGetCustomers(currentPage, PAGINATION_CHUNK).then(
                 (response: IHttpResponse) => {
                     if (response.error) {
                         log_error(
