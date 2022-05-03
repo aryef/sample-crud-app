@@ -4,6 +4,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import * as Server from '../../../../layers/common/infra/http/cors';
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
 import {
+    IPagination,
+    IPaginationChunk,
+} from '../../../../layers/common/interface/IPagination';
+import {
     log_error,
     log_info,
 } from '../../../../layers/common/logger/logger';
@@ -14,37 +18,35 @@ import { blGetCustomers } from '../../../../layers/server/business_layer/bl_get_
 
 const getCustomers: (
     page: number,
-) => Promise<IWithPagination<
-    ICustomer,
-    { perPage: 10; currentPage: number }
-> | null> = async (page: number) => {
-    return await blGetCustomers(page);
+    chunk: IPaginationChunk,
+) => Promise<IWithPagination<ICustomer, IPagination> | null> = async (
+    page: number,
+    chunk: IPaginationChunk,
+) => {
+    return await blGetCustomers(page, chunk);
 };
 
 export default async function get_customers(
     req: NextApiRequest,
     res: NextApiResponse<
-        | IWithPagination<
-              ICustomer,
-              { perPage: 10; currentPage: number }
-          >
-        | { error: string }
+        IWithPagination<ICustomer, IPagination> | { error: string }
     >,
 ) {
     if (req.method === 'GET') {
         await Server.cors(req, res);
 
         const page: string | string[] = req.query['page'];
+        const chunk: string | string[] = req.query['chunk'];
 
-        let result: IWithPagination<
-            ICustomer,
-            { perPage: 10; currentPage: number }
-        >;
+        let result: IWithPagination<ICustomer, IPagination>;
 
         if (!isEmpty(page) && !isArray(page) && isString(page)) {
             const pag: number = parseInt(page as string);
+            const chnk: IPaginationChunk = parseInt(
+                chunk as string,
+            ) as IPaginationChunk;
 
-            await getCustomers(pag)
+            await getCustomers(pag, chnk)
                 .then((customers) => {
                     if (customers && customers !== null) {
                         log_info(`data returned`, customers);

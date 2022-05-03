@@ -6,7 +6,7 @@ import { log_error, log_info } from '../../../common/logger/logger';
 import { isEmpty } from '../../../common/utils/string_helper';
 import * as Requests from '../../http/requests_client';
 
-export const deleteOrder: (
+export const cblDeleteOrder: (
     seq: string,
 ) => Promise<IHttpResponse> = async (seq: string) => {
     let resp: IHttpResponse = {

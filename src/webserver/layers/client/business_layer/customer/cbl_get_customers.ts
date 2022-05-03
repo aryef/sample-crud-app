@@ -1,5 +1,6 @@
 import * as Constants from '../../../common/environment/constants';
 import { IHttpResponse } from '../../../common/infra/http/IHttpResponse';
+import { IPaginationChunk } from '../../../common/interface/IPagination';
 import {
     log_error,
     log_exception,
@@ -9,8 +10,9 @@ import { isEmpty } from '../../../common/utils';
 import * as LocalStorage from '../../hooks/local_storage_hook';
 import * as Requests from '../../http/requests_client';
 
-export async function getCustomers(
+export async function cblGetCustomers(
     page: number,
+    chunk: IPaginationChunk,
 ): Promise<IHttpResponse> {
     let resp: IHttpResponse = {
         error: 'something went wrong',
@@ -28,7 +30,7 @@ export async function getCustomers(
         };
     }
 
-    await Requests.get(`customers?page=${page}`).then(
+    await Requests.get(`customers?page=${page}&chunk=${chunk}`).then(
         (response: IHttpResponse) => {
             if (response.success && isEmpty(response.error)) {
                 if (!isEmpty(response.data)) {

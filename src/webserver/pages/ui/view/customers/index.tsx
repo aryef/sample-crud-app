@@ -1,35 +1,34 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { IWithPagination } from 'knex-paginate';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import ReactPaginate from 'react-paginate';
+
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 import { useLocalStorage } from '../../../../layers/client/hooks/local_storage_hook';
 import * as Requests from '../../../../layers/client/http/requests_client';
 import ErrorBoundary from '../../../../layers/client/ui/components/common/ErrorBoundary';
-import Table from '../../../../layers/client/ui/components/common/Table';
 
-import tableStyles from '../../../../layers/client/ui/styles/sass/Home.module.css';
-import paginatorStyles from '../../../../layers/client/ui/styles/sass/paginator.module.scss';
 import * as Constants from '../../../../layers/common/environment/constants';
 import { IHttpResponse } from '../../../../layers/common/infra/http/IHttpResponse';
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
 import {
-    log_debug,
     log_error,
     log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
+import { IPagination } from '../../../../layers/common/interface/IPagination';
 
-const Customers = (props) => {
+const Customers = () => {
     const [customers_data, setCustomers_data] = useLocalStorage(
         Constants.CUSTOMERS_DATA_KEY,
         {},
     );
     const [currentPage, setCurrentCurrentPage] = useState(1);
 
-    const paginationHandler = (pops) => {
+    /* const paginationHandler = (pops) => {
         log_debug(pops);
         setCurrentCurrentPage((page) => page + 1);
 
@@ -42,44 +41,28 @@ const Customers = (props) => {
             pathname: currentPath,
             query: currentPage,
         });
-    };
+    }; */
 
     const columns = useMemo(
         () => [
             {
-                // first group - TV Show
-                Header: 'customer identity',
-                // First group columns
-                columns: [
-                    {
-                        Header: 'id',
-                        accessor: 'customer_id',
-                    },
-                    {
-                        Header: 'email',
-                        accessor: 'email',
-                    },
-                ],
+                text: 'id',
+                dataField: 'customer_id',
+                width: '150',
             },
             {
-                // first group - TV Show
-                Header: 'customer details',
-                // First group columns
-                columns: [
-                    {
-                        Header: '...',
-                        accessor: 'seq',
-                    },
-                    {
-                        Details: 'details',
-                        accessor: 'link',
-                        render: () => (
-                            <Link href="/ui/view/customers/customer/">
-                                <a>details</a>
-                            </Link>
-                        ),
-                    },
-                ],
+                text: 'email',
+                dataField: 'email',
+                width: '150',
+                sort: true,
+            },
+
+            {
+                text: 'details',
+                dataField: 'seq',
+                formatter: (cell, _row) => {
+                    return <p>${cell}</p>;
+                },
             },
         ],
         [],
@@ -96,7 +79,7 @@ const Customers = (props) => {
                     } else if (response.data) {
                         const customers: IWithPagination<
                             ICustomer,
-                            { perPage: 10; currentPage: number }
+                            IPagination
                         > = response.data;
 
                         setCustomers_data(customers.data);
@@ -115,33 +98,21 @@ const Customers = (props) => {
 
     const content = (
         <>
-            <div className={tableStyles.description}>
-                <ErrorBoundary>
-                    <Table columns={columns} data={customers_data} />
-                </ErrorBoundary>
-            </div>
+            <ErrorBoundary>
+                <BootstrapTable
+                    bordered
+                    keyField="customer_id"
+                    data={customers_data}
+                    columns={columns}
+                    pagination={paginationFactory()}
+                />
+            </ErrorBoundary>
         </>
     );
 
     return (
         <>
             <div>{content}</div>
-            <ReactPaginate
-                className={paginatorStyles.pagination}
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                breakLabel={'...'}
-                breakClassName={paginatorStyles.pagination}
-                activeClassName={paginatorStyles.active}
-                containerClassName={paginatorStyles.pagination}
-                //subContainerClassName={'pages pagination'}
-                initialPage={props.currentPage - 1}
-                pageCount={props.pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={paginationHandler}
-                onClick={paginationHandler}
-            />
         </>
     );
 };
