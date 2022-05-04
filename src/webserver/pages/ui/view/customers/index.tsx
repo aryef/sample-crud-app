@@ -66,10 +66,11 @@ const Customers = () => {
                 formatter: (cell: string, _row: ICustomer) => {
                     log_debug('cell', cell);
                     log_debug('row', _row);
-                    const link: string = `/ui/view/customers/customer/${cell}`;
+                    const link_href: string = `/ui/view/customers/customer/[seq]`;
+                    const link_as: string = `/ui/view/customers/customer/${cell}`;
 
                     return (
-                        <Link href={link}>
+                        <Link href={link_href} as={link_as}>
                             <a>{cell}</a>
                         </Link>
                     );

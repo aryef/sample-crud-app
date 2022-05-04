@@ -1,4 +1,4 @@
-# Sample Customer/Order CRUD application
+# Sample Index/Order CRUD application
 #### Arye Friedman / arye.friedman@gmail.com
 
 ## Technologies implemented / used
