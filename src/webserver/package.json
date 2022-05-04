@@ -18,7 +18,8 @@
         "stop-pm2": "pm2 stop justt-web",
         "kill-pm2": "pm2 kill",
         "telemetry-off": "npx next telemetry disable",
-        "clean-next": "npx rimraf .next"
+        "clean-next": "npx rimraf .next",
+        "remove-unsafe-lifecycles": "npx react-codemod rename-unsafe-lifecycles"
     },
     "dependencies": {
         "@popperjs/core": "2.10.2",

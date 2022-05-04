@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { IWithPagination } from 'knex-paginate';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -16,6 +17,7 @@ import { IHttpResponse } from '../../../../layers/common/infra/http/IHttpRespons
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
 import { IPagination } from '../../../../layers/common/interface/IPagination';
 import {
+    log_debug,
     log_error,
     log_info,
 } from '../../../../layers/common/logger/logger';
@@ -61,8 +63,16 @@ const Customers = () => {
             {
                 text: 'details',
                 dataField: 'seq',
-                formatter: (cell, _row) => {
-                    return <p>${cell}</p>;
+                formatter: (cell: string, _row: ICustomer) => {
+                    log_debug('cell', cell);
+                    log_debug('row', _row);
+                    const link: string = `/ui/view/customers/customer/${cell}`;
+
+                    return (
+                        <Link href={link}>
+                            <a>{cell}</a>
+                        </Link>
+                    );
                 },
             },
         ],
