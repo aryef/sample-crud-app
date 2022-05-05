@@ -5,7 +5,10 @@ import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 
-import BootstrapTable from 'react-bootstrap-table-next';
+import BootstrapTable, {
+    ColumnDescription,
+    PaginationOptions,
+} from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { cblGetCustomers } from '../../../../layers/client/business_layer/customer/cbl_get_customers';
 
@@ -19,7 +22,6 @@ import { IPagination } from '../../../../layers/common/interface/IPagination';
 import {
     log_debug,
     log_error,
-    log_info,
 } from '../../../../layers/common/logger/logger';
 import { isEmpty } from '../../../../layers/common/utils';
 import lodash from 'lodash';
@@ -46,39 +48,42 @@ const Customers = () => {
         });
     }; */
 
-    const columns = useMemo(
-        () => [
-            {
-                text: 'id',
-                dataField: 'customer_id',
-                width: '150',
-            },
-            {
-                text: 'email',
-                dataField: 'email',
-                width: '150',
-                sort: true,
-            },
-
-            {
-                text: 'details',
-                dataField: 'seq',
-                formatter: (cell: string, _row: ICustomer) => {
-                    log_debug('cell', cell);
-                    log_debug('row', _row);
-                    const link_href: string = `/ui/view/customers/customer/[seq]`;
-                    const link_as: string = `/ui/view/customers/customer/${cell}`;
-
-                    return (
-                        <Link href={link_href} as={link_as}>
-                            <a>{cell}</a>
-                        </Link>
-                    );
+    const columns: ColumnDescription<ICustomer, ICustomer>[] =
+        useMemo(
+            () => [
+                {
+                    text: 'id',
+                    dataField: 'customer_id',
+                    width: 150,
+                    sort: false,
+                    formatter: undefined,
                 },
-            },
-        ],
-        [],
-    );
+                {
+                    text: 'email',
+                    dataField: 'email',
+                    width: 150,
+                    sort: true,
+                    formatter: undefined,
+                },
+
+                {
+                    text: 'details',
+                    dataField: 'seq',
+                    width: 150,
+                    sort: false,
+                    formatter: (cell: string, _row: ICustomer) => {
+                        const link_href: string = `/ui/view/customers/customer/[seq]`;
+                        const link_as: string = `/ui/view/customers/customer/${cell}`;
+                        return (
+                            <Link href={link_href} as={link_as}>
+                                <a>{cell}</a>
+                            </Link>
+                        );
+                    },
+                },
+            ],
+            [],
+        );
 
     useEffect(() => {
         if (!isEmpty(customers_data)) {
@@ -99,7 +104,7 @@ const Customers = () => {
                             customers.pagination.currentPage,
                         );
 
-                        log_info(
+                        log_debug(
                             `get initial customer data, page# ${currentPage}`,
                         );
                     }
@@ -107,6 +112,8 @@ const Customers = () => {
             );
         }
     }, [currentPage]);
+
+    const options: PaginationOptions = { showTotal: true };
 
     const content = (
         <>
@@ -116,7 +123,7 @@ const Customers = () => {
                     keyField="customer_id"
                     data={lodash.values(customers_data)}
                     columns={columns}
-                    pagination={paginationFactory()}
+                    pagination={paginationFactory(options)}
                 />
             </ErrorBoundary>
         </>

@@ -9,7 +9,7 @@ import {
     log_error,
     log_exception,
 } from '../../common/logger/logger';
-import { isEmpty } from '../../common/utils/string_helper';
+import { isEmpty } from '../../common/utils';
 
 const baseUrl: string = `${
     process.env.NEXT_PUBLIC_NET_PROTOCOL?.toLowerCase() === 'https'
