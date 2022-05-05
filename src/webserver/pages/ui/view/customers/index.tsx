@@ -139,4 +139,3 @@ const Customers = () => {
 export default dynamic(() => Promise.resolve(withRouter(Customers)), {
     ssr: false,
 });
-//export default withRouter(Customers);
