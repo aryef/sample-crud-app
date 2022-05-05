@@ -13,7 +13,11 @@ import {
 import { isEmpty } from '../../common/utils/string_helper';
 
 dotenv.config();
-const baseUrl: string = `${process.env.PROTOCOL}://${process.env.SERVER_FQDN}:${process.env.WEBSITE_PORT}${API_BASE_URL}`;
+const baseUrl: string = `${
+    process.env.NEXT_PUBLIC_NET_PROTOCOL === 'https'
+        ? process.env.NEXT_PUBLIC_WEBSITE_URL_SSL
+        : process.env.NEXT_PUBLIC_WEBSITE_URL
+}${API_BASE_URL}`;
 
 export async function get(route: string): Promise<IHttpResponse> {
     let data: {} | null = null;
@@ -97,8 +101,7 @@ export async function post(
         try {
             const axiosClient = getCustomAxios();
 
-            axiosClient.defaults.baseURL =
-                process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
+            axiosClient.defaults.baseURL = baseUrl;
 
             await axiosClient
                 .post(`/${route}`, payload, {
@@ -164,8 +167,7 @@ export async function del(route: string): Promise<IHttpResponse> {
         try {
             const axiosClient = getCustomAxios();
 
-            axiosClient.defaults.baseURL =
-                process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
+            axiosClient.defaults.baseURL = baseUrl;
 
             await axiosClient
                 .get(`${API_BASE_URL}/${route}`, {

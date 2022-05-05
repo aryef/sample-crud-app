@@ -4,6 +4,8 @@
 ## Technologies implemented / used
 * Node.js
 * Next.js
+  * without SSR except home page
+  * dynamic routing for data drill down
 * React
 * Knex (with pagination plugin)
 * Typescript
@@ -12,6 +14,7 @@
 * Python (for data migration)
 * Docker (Postgres and Node.js containerization)
 * Postman + newman for api testing /unit testing
+* 
 
 # Architecture
 

@@ -13,7 +13,7 @@ module.exports = {
             kill_timeout: 5000,
             env: {
                 NODE_ENV: 'development',
-                WEBSITE_PORT: 50080,
+                WEBSITE_PORT: 40080,
             },
             env_production: {
                 NODE_ENV: 'production',

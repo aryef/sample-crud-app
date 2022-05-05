@@ -63,7 +63,10 @@ const nextConfig = {
             process.env.NEXT_PUBLIC_PRINT_MAX_LINES,
         ),
         NEXT_PUBLIC_WEBSITE_URL: process.env.NEXT_PUBLIC_WEBSITE_URL,
-        WEBSITE_PORT: parseInt(process.env.WEBSITE_PORT),
+        NEXT_PUBLIC_WEBSITE_URL_SSL:
+            process.env.NEXT_PUBLIC_WEBSITE_URL_SSL,
+        NEXT_PUBLIC_NET_PROTOCOL:
+            process.env.NEXT_PUBLIC_NET_PROTOCOL,
     },
     sassOptions: {
         includePaths: [

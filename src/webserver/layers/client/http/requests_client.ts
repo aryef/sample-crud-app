@@ -11,8 +11,11 @@ import {
 } from '../../common/logger/logger';
 import { isEmpty } from '../../common/utils/string_helper';
 
-const baseUrl: string =
-    process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
+const baseUrl: string = `${
+    process.env.NEXT_PUBLIC_NET_PROTOCOL?.toLowerCase() === 'https'
+        ? process.env.NEXT_PUBLIC_WEBSITE_URL_SSL
+        : process.env.NEXT_PUBLIC_WEBSITE_URL
+}${API_BASE_URL}`;
 
 export async function get(route: string): Promise<IHttpResponse> {
     let data: {} | null = null;
@@ -22,9 +25,7 @@ export async function get(route: string): Promise<IHttpResponse> {
 
     const errDesc: string = 'GET crashed';
 
-    log_debug(
-        `route=${process.env.NEXT_PUBLIC_WEBSITE_URL}/${route}`,
-    );
+    log_debug(`route=${baseUrl}/${route}`);
 
     if (!isEmpty(route)) {
         try {
@@ -99,8 +100,7 @@ export async function post(
         try {
             const axiosClient = getCustomAxios();
 
-            axiosClient.defaults.baseURL =
-                process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
+            axiosClient.defaults.baseURL = baseUrl;
 
             await axiosClient
                 .post(`/${route}`, payload, {
@@ -170,8 +170,7 @@ export async function del(
         try {
             const axiosClient = getCustomAxios();
 
-            axiosClient.defaults.baseURL =
-                process.env.NEXT_PUBLIC_WEBSITE_URL + API_BASE_URL;
+            axiosClient.defaults.baseURL = baseUrl;
 
             await axiosClient
                 .delete(`${API_BASE_URL}/${route}/seq=${seq}`, {
