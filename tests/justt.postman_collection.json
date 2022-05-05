@@ -34,6 +34,39 @@
 			"response": []
 		},
 		{
+			"name": "get_customers_ssl",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://finboo.ddns.net:40081/api/v1/customers?page=1&chunk=50",
+					"protocol": "https",
+					"host": [
+						"finboo",
+						"ddns",
+						"net"
+					],
+					"port": "40081",
+					"path": [
+						"api",
+						"v1",
+						"customers"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "chunk",
+							"value": "50"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get_order",
 			"request": {
 				"method": "GET",
@@ -165,7 +198,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:40080/api/v1/customers?page=1",
+					"raw": "http://localhost:40080/api/v1/customers?page=1&chunk=50",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -180,6 +213,10 @@
 						{
 							"key": "page",
 							"value": "1"
+						},
+						{
+							"key": "chunk",
+							"value": "50"
 						}
 					]
 				}

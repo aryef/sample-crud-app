@@ -4,6 +4,7 @@ import { IPaginationChunk } from '../interface/IPagination';
 export const SESSION_KEY = 'JUSTT_SESSION_KEY';
 
 export const CUSTOMERS_DATA_KEY = 'CUSTOMERS';
+export const CUSTOMER_DATA_KEY = 'CUSTOMER';
 
 export const LOG_LEVELS = {
     EXCEPTION: 5,
