@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -17,13 +18,14 @@ import { isEmpty } from '../../../../../../layers/common/utils';
 import lodash from 'lodash';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Orders from './orders';
 
 const Title = styled.h1`
     color: blueviolet;
     font-size: 25px;
 `;
 
-export default function Index() {
+const Customer = () => {
     const router = useRouter();
     const { seq } = router.query;
 
@@ -77,7 +79,7 @@ export default function Index() {
 
     return (
         <>
-            <Title>{customer?.email}</Title>
+            <Title>{customer_full_data?.email}</Title>
             <Tabs
                 defaultActiveKey="profile"
                 id="customer_tab"
@@ -85,8 +87,17 @@ export default function Index() {
             >
                 <Tab eventKey="profile" title="Profile"></Tab>
                 <Tab eventKey="contact" title="Contact"></Tab>
-                <Tab eventKey="orders" title="Orders"></Tab>
+                <Tab eventKey="orders" title="Orders">
+                    <Orders
+                        customer_seq={customer_full_data?.seq || ''}
+                        orders={customer_full_data?.orders || []}
+                    ></Orders>
+                </Tab>
             </Tabs>
         </>
     );
-}
+};
+
+export default dynamic(() => Promise.resolve(Customer), {
+    ssr: false,
+});
