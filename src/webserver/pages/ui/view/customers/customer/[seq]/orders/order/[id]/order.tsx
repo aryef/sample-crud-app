@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const Title = styled.h1`
@@ -6,5 +7,7 @@ const Title = styled.h1`
 `;
 
 export default function Order() {
-    return <Title>My Kage</Title>;
+    const router = useRouter();
+    const { seq } = router.query;
+    return <Title>{seq}</Title>;
 }

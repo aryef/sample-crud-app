@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+import { useRouter, withRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -81,23 +81,20 @@ const Customer = () => {
         <>
             <Title>{customer_full_data?.email}</Title>
             <Tabs
-                defaultActiveKey="profile"
+                defaultActiveKey="orders"
                 id="customer_tab"
                 className="mb-3"
             >
+                <Tab eventKey="orders" title="Orders">
+                    <Orders></Orders>
+                </Tab>
                 <Tab eventKey="profile" title="Profile"></Tab>
                 <Tab eventKey="contact" title="Contact"></Tab>
-                <Tab eventKey="orders" title="Orders">
-                    <Orders
-                        customer_seq={customer_full_data?.seq || ''}
-                        orders={customer_full_data?.orders || []}
-                    ></Orders>
-                </Tab>
             </Tabs>
         </>
     );
 };
 
-export default dynamic(() => Promise.resolve(Customer), {
+export default dynamic(() => Promise.resolve(withRouter(Customer)), {
     ssr: false,
 });
