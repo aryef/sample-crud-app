@@ -8,6 +8,6 @@ const Title = styled.h1`
 
 export default function Order() {
     const router = useRouter();
-    const { seq } = router.query;
-    return <Title>{seq}</Title>;
+    const { id } = router.query;
+    return <Title>{id}</Title>;
 }
