@@ -1,5 +1,6 @@
 import { isArray } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { HTTP_STATUS_CODES } from '../../../../../layers/common/environment/constants';
 import * as Server from '../../../../../layers/common/infra/http/cors';
 import { ICustomer } from '../../../../../layers/common/interface/data/ICustomer';
 import {
@@ -34,24 +35,39 @@ export default async function get_customer(
                         result = customer;
 
                         log_info(`data returned`, customer);
-                        return res.status(200).json(result);
+                        return res
+                            .status(HTTP_STATUS_CODES.SUCCESS.OK)
+                            .json(result);
                     } else {
                         log_info(`no data returned`);
-                        return res.status(405).json(result);
+                        return res
+                            .status(
+                                HTTP_STATUS_CODES.SUCCESS.NO_CONTENT,
+                            )
+                            .json(result);
                     }
                 })
                 .catch((err) => {
                     log_error(`data crashed`, err);
                     return res
-                        .status(501)
-                        .send({ error: `no customer found ${err}` });
+                        .status(
+                            HTTP_STATUS_CODES.SERVER_ERROR
+                                .SERVICE_UNAVAILABLE,
+                        )
+                        .send({
+                            error: `customer api thrown error  ${err}`,
+                        });
                 });
         } else {
-            return res.status(501).send({ error: `input invalid` });
+            return res
+                .status(
+                    HTTP_STATUS_CODES.CLIENT_ERROR.EXPECTATION_FAILED,
+                )
+                .send({ error: `email input invalid` });
         }
     } else {
         return res
-            .status(405)
-            .send({ error: `"Method not implemented"` });
+            .status(HTTP_STATUS_CODES.SERVER_ERROR.NOT_IMPLEMENTED)
+            .send({ error: `${req.method} "  not implemented"` });
     }
 }

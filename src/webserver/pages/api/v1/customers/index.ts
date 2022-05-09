@@ -1,6 +1,7 @@
 import { IWithPagination } from 'knex-paginate';
 import { isArray } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { HTTP_STATUS_CODES } from '../../../../layers/common/environment/constants';
 import * as Server from '../../../../layers/common/infra/http/cors';
 import { ICustomer } from '../../../../layers/common/interface/data/ICustomer';
 import {
@@ -50,24 +51,39 @@ export default async function get_customers(
                 .then((customers) => {
                     if (customers && customers !== null) {
                         log_info(`data returned`, customers);
-                        return res.status(200).json(customers);
+                        return res
+                            .status(HTTP_STATUS_CODES.SUCCESS.OK)
+                            .json(customers);
                     } else {
                         log_info(`no data returned`);
-                        return res.status(405).json(result);
+                        return res
+                            .status(
+                                HTTP_STATUS_CODES.SUCCESS.NO_CONTENT,
+                            )
+                            .json(result);
                     }
                 })
                 .catch((err) => {
                     log_error(`data crashed`, err);
                     return res
-                        .status(501)
-                        .send({ error: `no customers found ${err}` });
+                        .status(
+                            HTTP_STATUS_CODES.SERVER_ERROR
+                                .SERVICE_UNAVAILABLE,
+                        )
+                        .send({
+                            error: `customers service crashed with error ${err}`,
+                        });
                 });
         } else {
-            return res.status(501).send({ error: `page invalid` });
+            return res
+                .status(
+                    HTTP_STATUS_CODES.CLIENT_ERROR.EXPECTATION_FAILED,
+                )
+                .send({ error: `page supplied was invalid` });
         }
     } else {
         return res
-            .status(405)
-            .send({ error: `"Method not implemented"` });
+            .status(HTTP_STATUS_CODES.SERVER_ERROR.NOT_IMPLEMENTED)
+            .send({ error: `${req.method} "  not implemented"` });
     }
 }

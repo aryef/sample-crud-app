@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { HTTP_STATUS_CODES } from '../../../../../layers/common/environment/constants';
 import { IOrder } from '../../../../../layers/common/interface/data/IOrder';
 import {
     log_error,
@@ -30,19 +31,28 @@ export async function order_add(
                     result = order_added;
 
                     log_info(`data returned`, order_added);
-                    return res.status(200).json(result);
+                    return res
+                        .status(HTTP_STATUS_CODES.SUCCESS.OK)
+                        .json(result);
                 } else {
                     log_info(`no data returned`);
-                    return res.status(405).json(result);
+                    return res
+                        .status(HTTP_STATUS_CODES.SUCCESS.NO_CONTENT)
+                        .json(result);
                 }
             })
             .catch((err) => {
                 log_error(`data crashed`, err);
                 return res
-                    .status(501)
-                    .send({ error: `no order found ${err}` });
+                    .status(
+                        HTTP_STATUS_CODES.SERVER_ERROR
+                            .SERVICE_UNAVAILABLE,
+                    )
+                    .send({ error: `order service crashed ${err}` });
             });
     } else {
-        return res.status(501).send({ error: `input invalid` });
+        return res
+            .status(HTTP_STATUS_CODES.CLIENT_ERROR.EXPECTATION_FAILED)
+            .send({ error: `order input invalid` });
     }
 }

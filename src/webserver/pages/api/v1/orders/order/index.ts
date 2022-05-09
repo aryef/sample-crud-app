@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { HTTP_STATUS_CODES } from '../../../../../layers/common/environment/constants';
 import * as Server from '../../../../../layers/common/infra/http/cors';
 import { IOrder } from '../../../../../layers/common/interface/data/IOrder';
 import { order_add } from './order_add';
@@ -22,7 +23,7 @@ export default async function api_order(
         return await order_modify(req, res);
     } else {
         return res
-            .status(405)
-            .send({ error: `"Method not implemented!"` });
+            .status(HTTP_STATUS_CODES.SERVER_ERROR.NOT_IMPLEMENTED)
+            .send({ error: `${req.method} "  not implemented"` });
     }
 }
